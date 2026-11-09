@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Curtin Badge Proposal</title>
+<script>
+  try { if (localStorage.getItem('sfl-theme') === 'light') document.documentElement.setAttribute('data-theme', 'light'); } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#0D0D0F; --panel:#17171A; --panel-alt:#1D1D21;
+  --border:rgba(255,255,255,0.09); --border-strong:rgba(255,255,255,0.18);
+  --text:#F2F2F0; --text-soft:#9A9A9A; --text-faint:#8A8A8A;
+  --gold:#E0A73A; --gold-btn:#E0A73A; --gold-soft:rgba(224,167,58,0.14); --gold-ink:#1A1408;
+  --teal:#4FBFA8; --red:#E2735A; --red-soft:rgba(226,115,90,0.14);
+  --glow:rgba(224,167,58,0.28);
+  --font:'Inter', -apple-system, 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg:#F7F6F3; --panel:#FFFFFF; --panel-alt:#F1EFEA;
+  --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.16);
+  --text:#1A1A1C; --text-soft:#55565B; --text-faint:#6B6B6F;
+  --gold:#8B5510; --gold-btn:#E0A73A; --gold-soft:rgba(139,85,16,0.12); --gold-ink:#1A1408;
+  --teal:#1F7A69; --red:#B33F29; --red-soft:rgba(179,63,41,0.12);
+  --glow:rgba(224,167,58,0.28);
+}
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 80px); }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: var(--font); font-size: 14px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .15s ease, color .15s ease;
+}
+a { color: inherit; }
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  background: var(--bg); z-index: 10;
+}
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.topbar-in { display: flex; align-items: center; gap: 12px; padding: 14px 28px; max-width: 1240px; margin: 0 auto; }
+.topbar .logo { height: 32px; width: auto; flex: none; }
+.divider { width: 1px; height: 22px; background: var(--border-strong); flex: none; }
+.header-title { font-size: 13px; color: var(--text-soft); letter-spacing: .02em; }
+.progress { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--text-faint); }
+.bar { width: 110px; height: 6px; background: var(--border-strong); border-radius: 3px; overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--gold-btn); transition: width .25s; }
+.theme-toggle {
+  background: var(--panel-alt); border: 1px solid var(--border-strong); color: var(--text-soft);
+  border-radius: 20px; width: 38px; height: 38px; min-height: 38px; padding: 0; flex: none;
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
+}
+.theme-toggle:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+main { max-width: 820px; margin: 0 auto; padding: 28px 28px 70px; }
+h1 { font-size: 26px; font-weight: 800; margin: 0 0 8px; letter-spacing: -.2px; line-height: 1.2; }
+.lede { color: var(--text-soft); max-width: 640px; margin: 0 0 6px; font-size: 14px; }
+.draft-note { font-size: 12.5px; color: var(--text-faint); margin: 0 0 24px; }
+fieldset.section { border: 0; padding: 0; margin: 0 0 24px; min-width: 0; }
+fieldset.section > legend {
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--text-soft); padding: 0; margin: 0 0 10px; float: left; width: 100%;
+}
+fieldset.section > legend + * { clear: both; }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 6px 22px; }
+.field { padding: 16px 0; border-bottom: 1px solid var(--border); }
+.field:last-child { border-bottom: 0; }
+.field > label, .field > .q, .field > legend { display: block; font-weight: 600; font-size: 14px; margin-bottom: 2px; padding: 0; }
+fieldset.field { border: 0; border-bottom: 1px solid var(--border); margin: 0; min-width: 0; }
+fieldset.field:last-child { border-bottom: 0; }
+.opt { font-weight: 400; color: var(--text-faint); font-size: 13px; }
+.req { color: var(--red); margin-left: 2px; }
+.hint { display: block; color: var(--text-soft); font-size: 13px; margin: 0 0 8px; max-width: 64ch; }
+.hint a, .foot a, .note a { color: var(--gold); text-underline-offset: 2px; }
+input[type=text], input[type=email], input[type=url], input[type=number], input[type=date], select, textarea {
+  width: 100%; font-family: var(--font); font-size: 14px; color: var(--text); background: var(--panel-alt);
+  border: 1px solid var(--border-strong); border-radius: 7px; padding: 9px 11px; min-height: 42px;
+}
+input[type=file] { font-family: var(--font); font-size: 13px; color: var(--text-soft); max-width: 100%; }
+textarea { min-height: 100px; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold-btn); box-shadow: 0 0 0 3px var(--glow); }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: none; border-color: var(--gold-btn); box-shadow: 0 0 0 3px var(--glow); }
+button:focus-visible, summary:focus-visible, input[type=checkbox]:focus-visible, input[type=radio]:focus-visible, input[type=file]:focus-visible { outline: 2px solid var(--gold-btn); outline-offset: 2px; }
+input[type=checkbox], input[type=radio] { width: 17px; height: 17px; accent-color: var(--gold-btn); flex: none; margin: 2px 0 0; cursor: pointer; }
+.choices { display: grid; gap: 2px; margin-top: 6px; }
+.choice { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border-radius: 7px; cursor: pointer; font-size: 14px; }
+.choice:hover { background: var(--panel-alt); }
+.sub { margin: 4px 0 6px 37px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.sub input[type=number] { width: 110px; } .sub select { width: 130px; } .sub input[type=date] { width: 200px; }
+.note { background: var(--gold-soft); border-left: 3px solid var(--gold-btn); border-radius: 6px; padding: 10px 14px; font-size: 13px; margin: 8px 0 0; max-width: 64ch; }
+.row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+.row .n { color: var(--text-faint); font-size: 13px; width: 18px; text-align: right; flex: none; }
+button { font-family: var(--font); font-size: 13px; cursor: pointer; border-radius: 7px; min-height: 40px; padding: 0 16px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-soft); }
+button:hover:not(:disabled) { border-color: var(--text-soft); color: var(--text); }
+button:disabled { opacity: .4; cursor: not-allowed; }
+button.primary { background: var(--gold-btn); color: var(--gold-ink); border: 0; font-weight: 700; font-size: 13.5px; border-radius: 8px; padding: 0 20px; min-height: 42px; }
+button.primary:hover:not(:disabled) { filter: brightness(1.05); color: var(--gold-ink); }
+button.icon { width: 40px; padding: 0; flex: none; font-size: 18px; line-height: 1; }
+button.link { border: 0; background: none; padding: 0 2px; min-height: 32px; text-decoration: underline; text-underline-offset: 2px; color: var(--text-faint); font-size: inherit; }
+button.link:hover:not(:disabled) { color: var(--gold); }
+.field.invalid input[type=text], .field.invalid input[type=email], .field.invalid input[type=url],
+.field.invalid input[type=number], .field.invalid input[type=date], .field.invalid select, .field.invalid textarea { border-color: var(--red); background: var(--red-soft); }
+.err { display: none; color: var(--red); font-size: 13px; font-weight: 600; margin-top: 6px; }
+.field.invalid .err { display: block; }
+.cost { font-size: 12.5px; color: var(--text-faint); margin-top: 6px; }
+.logo-prev { margin-top: 10px; display: flex; gap: 12px; align-items: center; font-size: 13px; color: var(--text-soft); }
+.logo-prev img { max-height: 56px; max-width: 120px; border: 1px solid var(--border-strong); border-radius: 6px; background: #fff; padding: 4px; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+.status { font-size: 13px; color: var(--red); font-weight: 600; }
+#review { display: none; margin-top: 28px; border: 1px solid var(--gold-btn); border-radius: 12px; background: var(--panel); padding: 20px 22px; }
+#review.show { display: block; }
+#review h2 { font-size: 18px; font-weight: 700; margin: 0 0 6px; }
+#review pre { white-space: pre-wrap; word-break: break-word; font-family: var(--font); font-size: 13px; color: var(--text); background: var(--panel-alt); border: 1px solid var(--border); border-radius: 8px; padding: 14px; max-height: 360px; overflow: auto; margin: 14px 0; }
+.toast { color: var(--teal); font-size: 13px; font-weight: 600; min-height: 20px; margin-top: 8px; }
+.info { display: flex; gap: 12px; align-items: flex-start; margin-top: 20px; padding: 14px 16px; background: var(--gold-soft); border: 1px solid var(--border-strong); border-left: 3px solid var(--gold-btn); border-radius: 8px; font-size: 13.5px; color: var(--text); }
+.info svg { flex: none; margin-top: 2px; color: var(--gold); }
+.info p { margin: 0; max-width: 64ch; }
+.foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-faint); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+@media (max-width: 640px) {
+  .topbar-in { padding: 12px 16px; gap: 10px; }
+  .header-title, .progress #progText { display: none; }
+  .progress { margin-left: auto; } .bar { width: 64px; }
+  main { padding: 22px 16px 60px; }
+  .card { padding: 4px 16px; } .sub { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .bar > i, body { transition: none; } }
+@media print {
+  :root { --bg:#fff; --panel:#fff; --panel-alt:#fff; --text:#000; --text-soft:#333; --text-faint:#444; --border:#ccc; --border-strong:#999; }
+  .topbar, .actions, #review .actions, .row button, .link, body::before { display: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+  <img class="logo" src="data:image/png;base64,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i6g/OLWh63pySuqb77wzfMQwSikxiCgKt918yztvvZWQlBSP1whLtjTmmGNefu3VlJQUAAAlFGN0wdRpy5YsdbicJGZAZBfffNvtZ045XdcNiCCg4Icffrj+mmtiE8R4vd6MzMyp558/4dSJRww6wmq1AggqKypumH39b8uWWq1NHK9nA42iyG+88VrjZkkoQRDt2rVr5vTppcVFoiixgSwcDg8YNOiTzz8TscCidxzY8igAwF/rv/3W275Z9JXdbo/9XohQJBLJSE396JOPFUUmhEAA/XX+2265dfFXX9kdDjbihEMh3TBOO2PKzMtmHXPM0fKBqdQYEU1b8uv/5j755JZNG51OV3fSHAihUCh8x113nnrqRBZin1D61Zdf3XbTTTRajJQQb4138LChl1955Wmnn5aUmNjkrXbv3vPaK68u+OADi0VqvEZHCAUDgQmnnvqfxx7V9XrP68a1WVpSctmMmdu2blGUA7LFsl8fN378f196KSExgVLAEuFOPfvcP//4vUHVN/emdX7/1ddde8ddd7HQcwihivKKE8aNC4fDLScwwhj7/X5Rkk6fcubU86cde9yxLqez+TEY5OzNWfz1Nx9+8EFeTo7L7W7u2TBC/mBw+sxZ/7r6Kr1eQsGlS5f++6qrdE0zDRJerzezd5/zpk2dNHnywIEDrVYrpdTv999y083fLf7G7nA06MKGrvt8vkFZWedNnTrx1FMHDRoYTyjeQDBYVVn15vz5r7z4ostV38hZsZ8yceJj//ef5moNQlhYUHjZjJm7d+20yHLLQZjYS1144YUXXnhhkw1ADav333ff+++8E5t4ltXdlddcc/c9d5t1V1VZdcK4ccFgMM7kUyzA/xNPPTVt2jQ2hgsCXrJk6SUXXNClI4J0iFYihhrPn5jYnRBQQIkGKAEd6wQOI/7i2BmEEC3Op+0S1QkhPGbsWFNYsVRYW7du27pli6IoHdpM2fR/wkknZWcPB5RidOBOe9zPH4lEzp06tUdqKiUEQdjqTdi/IwgwQhij006bPHT48FA0q5zf758+a9biH76/8647jxo1ym63IQQpISkpKRddfElEjbS83csWpg3+YIQIMY44YtC4ceMCdQF04LgGAYAQoEa/hSCkhLhczosvvaQlswoAEACMIKXE5XRefsXlEGMAgCAIPp+vZ3r6q2/Of/PtN8ePP16W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" alt="Curtin University">
+  <span class="divider"></span>
+  <span class="header-title">Badge Proposal</span>
+  <span class="progress"><span id="progText">0 of 0 required</span><span class="bar"><i id="progBar"></i></span></span>
+  <button type="button" class="theme-toggle" id="themeToggleBtn" title="Switch theme" aria-label="Switch between light and dark theme">🌙</button>
+</div></div>
+
+<main>
+  <h1>Curtin badge proposal</h1>
+  <p class="lede">Tell us about the badge you want to issue. When you’re done, copy the form and paste it into the Proposal form. You can also email it to the Credentials Operations team.</p>
+  <p class="draft-note">Your answers are saved in this browser as you type. <button type="button" class="link" id="clearBtn">Clear form</button></p>
+
+  <form id="f" novalidate>
+
+    <fieldset class="section">
+      <legend>Proposer details</legend>
+      <div class="card">
+        <div class="field" data-req>
+          <label for="proposerName">Name<span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="proposerName" autocomplete="name">
+          <div class="err"></div>
+        </div>
+        <div class="field" data-req>
+          <label for="proposerEmail">Email address<span class="req" aria-hidden="true">*</span></label>
+          <input type="email" id="proposerEmail" autocomplete="email">
+          <div class="err"></div>
+        </div>
+        <div class="field" data-req>
+          <label for="faculty">Faculty / School<span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="faculty">
+          <div class="err"></div>
+        </div>
+        <div class="field" data-req>
+          <label for="costCentre">Cost centre number<span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="costCentre" inputmode="numeric">
+          <div class="err"></div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="section">
+      <legend>Issuer details</legend>
+      <div class="card">
+        <div class="field" data-req>
+          <label for="issuerName">Issuer name<span class="req" aria-hidden="true">*</span></label>
+          <span class="hint" id="h-issuerName">Who or what area is issuing this badge? For example an organisation, group, faculty, school or department.</span>
+          <input type="text" id="issuerName" aria-describedby="h-issuerName">
+          <div class="err"></div>
+        </div>
+        <div class="field" data-req>
+          <label for="issuerWebsite">Issuer website<span class="req" aria-hidden="true">*</span></label>
+          <input type="url" id="issuerWebsite" placeholder="https://" autocomplete="url">
+          <div class="err"></div>
+        </div>
+        <div class="field" data-req>
+          <label for="issuerEmail">Issuer email<span class="req" aria-hidden="true">*</span></label>
+          <span class="hint" id="h-issuerEmail">This must be a generic mailbox, not a private one.</span>
+          <input type="email" id="issuerEmail" aria-describedby="h-issuerEmail">
+          <div class="err"></div>
+        </div>
+        <div class="field" data-req>
+          <label for="issuerDesc">Issuer description<span class="req" aria-hidden="true">*</span></label>
+          <textarea id="issuerDesc"></textarea>
+          <div class="err"></div>
+        </div>
+        <div class="field">
+          <label for="logo">Issuer logo <span class="opt">(optional)</span></label>
+          <span class="hint" id="h-logo">If you don’t choose an image, the badge uses the Curtin logo. Attach your logo file to the email when you send this form.</span>
+          <input type="file" id="logo" accept="image/*" aria-describedby="h-logo">
+          <div class="logo-prev" id="logoPrev" hidden></div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="section">
+      <legend>Badge information</legend>
+      <div class="card">
+
+        <fieldset class="field" data-req id="fs-audience">
+          <legend class="q">Who is the badge for?<span class="req" aria-hidden="true">*</span></legend>
+          <span class="hint">Select all that apply. Let us know if badges will be issued to minors.</span>
+          <div class="choices">
+            <label class="choice"><input type="checkbox" name="audience" value="Highschool"><span>Highschool</span></label>
+            <label class="choice"><input type="checkbox" name="audience" value="University students (UG or PG)"><span>University students (UG or PG)</span></label>
+            <label class="choice"><input type="checkbox" name="audience" value="Industry"><span>Industry</span></label>
+            <label class="choice"><input type="checkbox" name="audience" value="Other" id="audOther"><span>Other</span></label>
+          </div>
+          <div class="sub" id="audOtherWrap" hidden>
+            <input type="text" id="audienceOther" placeholder="Who is it for?" aria-label="Other audience">
+          </div>
+          <div class="err"></div>
+        </fieldset>
+
+        <div class="field" data-req>
+          <label for="badgeName">Badge name<span class="req" aria-hidden="true">*</span></label>
+          <span class="hint" id="h-badgeName">For example, the course or program title the badge would be issued for.</span>
+          <input type="text" id="badgeName" aria-describedby="h-badgeName">
+          <div class="err"></div>
+        </div>
+
+        <div class="field" data-req>
+          <label for="learners">How many learners will be issued a badge?<span class="req" aria-hidden="true">*</span></label>
+          <span class="hint" id="h-learners">Enter your estimate. The minimum cost per issue is about $5.00.</span>
+          <input type="number" id="learners" min="1" step="1" value="150" style="max-width:160px" aria-describedby="h-learners cost">
+          <div class="cost" id="cost" aria-live="polite"></div>
+          <div class="err"></div>
+        </div>
+
+        <fieldset class="field" data-req>
+          <legend class="q">Do you need one badge or many in a series?<span class="req" aria-hidden="true">*</span></legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="series" value="One badge"><span>One badge</span></label>
+            <label class="choice"><input type="radio" name="series" value="A series of badges"><span>A series of badges</span></label>
+          </div>
+          <div class="note" id="seriesNote" hidden>If this is a series, the Curtin Credentials team will contact you for further details: <a href="mailto:curtincredentials@curtin.edu.au">curtincredentials@curtin.edu.au</a></div>
+          <div class="err"></div>
+        </fieldset>
+
+        <fieldset class="field" data-req>
+          <legend class="q">Badge expiration<span class="req" aria-hidden="true">*</span></legend>
+          <span class="hint">How long should the badge be valid? After this time, learners can no longer display the badge.</span>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="expiry" value="period"><span>Valid for a set period</span></label>
+            <div class="sub" id="expPeriod" hidden>
+              <input type="number" id="expN" min="1" step="1" aria-label="Number">
+              <select id="expUnit" aria-label="Unit"><option>Years</option><option>Months</option></select>
+            </div>
+            <label class="choice"><input type="radio" name="expiry" value="date"><span>Expires on a date</span></label>
+            <div class="sub" id="expDateWrap" hidden>
+              <input type="date" id="expDate" aria-label="Expiry date">
+            </div>
+            <label class="choice"><input type="radio" name="expiry" value="none"><span>No expiration</span></label>
+          </div>
+          <div class="err"></div>
+        </fieldset>
+
+        <fieldset class="field" data-req>
+          <legend class="q">Badge type<span class="req" aria-hidden="true">*</span></legend>
+          <span class="hint">Curtin Engage badges are for participation only and are not for credit. Essentials, Extend and Deep Dive are credit bearing badges.</span>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="btype" value="Curtin Engage"><span>Curtin Engage</span></label>
+            <label class="choice"><input type="radio" name="btype" value="Essentials"><span>Essentials (credit bearing)</span></label>
+            <label class="choice"><input type="radio" name="btype" value="Extend"><span>Extend (credit bearing)</span></label>
+            <label class="choice"><input type="radio" name="btype" value="Deep Dive"><span>Deep Dive (credit bearing)</span></label>
+          </div>
+          <div class="note" id="creditNote" hidden>Credit bearing badges need further approval as part of the PLG process. For help, email <a href="mailto:curtincredentials@curtin.edu.au">curtincredentials@curtin.edu.au</a>.</div>
+          <div class="err"></div>
+        </fieldset>
+
+        <div class="field" data-req>
+          <label for="purpose">Purpose of the badge<span class="req" aria-hidden="true">*</span></label>
+          <span class="hint" id="h-purpose">Why do you need a badge?</span>
+          <textarea id="purpose" aria-describedby="h-purpose"></textarea>
+          <div class="err"></div>
+        </div>
+
+        <div class="field" data-req>
+          <label for="badgeDesc">Badge description<span class="req" aria-hidden="true">*</span></label>
+          <span class="hint" id="h-badgeDesc">This information will be attached to the badge.</span>
+          <textarea id="badgeDesc" aria-describedby="h-badgeDesc"></textarea>
+          <div class="err"></div>
+        </div>
+
+        <div class="field" data-req id="f-criteria">
+          <span class="q" style="font-weight:600">Earning criteria<span class="req" aria-hidden="true">*</span></span>
+          <span class="hint">What will learners achieve to earn the badge? List the learning outcomes. They appear on the badge as “Learners must complete the following criteria to earn the badge.”</span>
+          <div id="criteriaList"></div>
+          <button type="button" id="addCriteria">Add criterion</button>
+          <div class="err"></div>
+        </div>
+
+        <div class="field" data-req id="f-skills">
+          <span class="q" style="font-weight:600">Skills<span class="req" aria-hidden="true">*</span></span>
+          <span class="hint">Nominate 3 to 5 skills from the Skills Library on the <a href="https://lightcast.io/open-skills" target="_blank" rel="noopener">Lightcast Open Skills website</a>. They appear on the badge as “Learners demonstrated these job skills.”</span>
+          <div id="skillsList"></div>
+          <button type="button" id="addSkill">Add skill</button>
+          <div class="err"></div>
+        </div>
+
+        <div class="field">
+          <label for="alignment">Alignment details <span class="opt" id="alignOpt">(optional)</span><span class="req" id="alignReq" aria-hidden="true" hidden>*</span></label>
+          <span class="hint" id="h-align">Is this award aligned to a framework such as the AQF? If so, what level? Optional for Curtin Engage badges. Required for credit bearing badges.</span>
+          <input type="text" id="alignment" aria-describedby="h-align">
+          <div class="err"></div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="section">
+      <legend>Additional information</legend>
+      <div class="card">
+        <div class="field">
+          <label for="additional">Anything else we should know? <span class="opt">(optional)</span></label>
+          <span class="hint" id="h-add">For example, issues, concerns, or strategic goals this badge would help achieve.</span>
+          <textarea id="additional" aria-describedby="h-add"></textarea>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="actions">
+      <button type="button" class="primary" id="copyFormBtn">Copy form</button>
+      <button type="submit">Email form to submit</button>
+      <button type="button" id="saveBtn">Save draft</button>
+      <span class="status" id="status" role="alert"></span>
+      <span class="toast" id="saveMsg" role="status" style="margin:0"></span>
+    </div>
+  <div class="info" role="note">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <p>If you are completing this as part of the online SFL proposal form, copy the form and paste it into the <strong>“Badge information”</strong> section of the proposal form.</p>
+    </div>
+  </form>
+
+  <section id="review" aria-labelledby="revTitle">
+    <h2 id="revTitle">Your completed form</h2>
+    <p class="hint" style="max-width:none">Use <strong>Copy form</strong>, then go back to the Proposal form and paste it in. To submit by email instead, use <strong>Open email</strong>, which opens a message to <strong>creds.operations@curtin.edu.au</strong> with these answers filled in. Nothing is submitted until you press Send in your email app.</p>
+    <pre id="revText"></pre>
+    <div class="actions">
+      <button type="button" class="primary" id="mailBtn">Open email</button>
+      <button type="button" id="copyBtn">Copy form</button>
+      <button type="button" id="printBtn">Print or save as PDF</button>
+      <button type="button" class="link" id="editBtn">Back to editing</button>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <div class="note" id="logoNote" hidden>You chose an issuer logo. Remember to attach the image file to your email.</div>
+  </section>
+
+  <div class="foot">
+    <span>Form version 4, 9 November 2026</span>
+    <span>For more information contact <a href="mailto:curtincredentials@curtin.edu.au">curtincredentials@curtin.edu.au</a></span>
+  </div>
+</main>
+
+<script>
+(function () {
+  var TO = "creds.operations@curtin.edu.au";
+  var KEY = "curtin-badge-proposal-draft-v1";
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
+  function val(id) { return ($("#" + id).value || "").trim(); }
+  function checkedVals(name) { return $$('input[name="' + name + '"]:checked').map(function (i) { return i.value; }); }
+  function listVals(id) { return $$("#" + id + " input").map(function (i) { return i.value.trim(); }); }
+  function isCredit() { return ["Essentials", "Extend", "Deep Dive"].indexOf(checkedVals("btype")[0]) > -1; }
+
+  /* ---------- dynamic lists ---------- */
+  var LISTS = {
+    criteriaList: { min: 1, max: 10, add: "addCriteria", ph: "e.g. Complete all workshop modules", label: "Criterion" },
+    skillsList:   { min: 3, max: 5,  add: "addSkill",    ph: "e.g. Project management",           label: "Skill" }
+  };
+  function refreshList(id) {
+    var cfg = LISTS[id], rows = $$("#" + id + " .row");
+    rows.forEach(function (r, i) {
+      r.querySelector(".n").textContent = (i + 1);
+      r.querySelector("input").setAttribute("aria-label", cfg.label + " " + (i + 1));
+      r.querySelector("button").disabled = rows.length <= cfg.min;
+    });
+    $("#" + cfg.add).disabled = rows.length >= cfg.max;
+  }
+  function addItem(id, value) {
+    var cfg = LISTS[id], row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = '<span class="n"></span><input type="text"><button type="button" class="icon" aria-label="Remove">\u00d7</button>';
+    var inp = row.querySelector("input");
+    inp.placeholder = cfg.ph; inp.value = value || "";
+    inp.addEventListener("input", onChange);
+    row.querySelector("button").addEventListener("click", function () {
+      row.remove(); refreshList(id); onChange();
+    });
+    $("#" + id).appendChild(row);
+    refreshList(id);
+  }
+  function setList(id, values) {
+    $("#" + id).innerHTML = "";
+    var n = Math.max(LISTS[id].min, values.length);
+    for (var i = 0; i < n; i++) addItem(id, values[i] || "");
+  }
+  $("#addCriteria").addEventListener("click", function () { addItem("criteriaList"); var r = $$("#criteriaList input"); r[r.length - 1].focus(); onChange(); });
+  $("#addSkill").addEventListener("click", function () { addItem("skillsList"); var r = $$("#skillsList input"); r[r.length - 1].focus(); onChange(); });
+
+  /* ---------- conditional UI ---------- */
+  function syncConditional() {
+    $("#audOtherWrap").hidden = !$("#audOther").checked;
+    $("#seriesNote").hidden = checkedVals("series")[0] !== "A series of badges";
+    var credit = isCredit();
+    $("#creditNote").hidden = !credit;
+    $("#alignOpt").hidden = credit;
+    $("#alignReq").hidden = !credit;
+    if (!credit) setErr($("#alignment"), "");
+    var ex = checkedVals("expiry")[0];
+    $("#expPeriod").hidden = ex !== "period";
+    $("#expDateWrap").hidden = ex !== "date";
+    var n = parseInt($("#learners").value, 10);
+    $("#cost").textContent = n > 0 ? "At about $5.00 per issue, the minimum cost is roughly $" + (n * 5).toLocaleString("en-AU") + "." : "";
+  }
+
+  /* ---------- logo preview ---------- */
+  var logoName = "";
+  $("#logo").addEventListener("change", function () {
+    var f = this.files && this.files[0], box = $("#logoPrev");
+    if (!f) { box.hidden = true; box.innerHTML = ""; logoName = ""; return; }
+    logoName = f.name;
+    var r = new FileReader();
+    r.onload = function () {
+      box.innerHTML = "";
+      var img = document.createElement("img"); img.src = r.result; img.alt = "Logo preview";
+      var t = document.createElement("span"); t.textContent = f.name;
+      box.appendChild(img); box.appendChild(t); box.hidden = false;
+    };
+    r.readAsDataURL(f);
+  });
+
+  /* ---------- save / restore ---------- */
+  var IDS = ["proposerName","proposerEmail","faculty","costCentre","issuerName","issuerWebsite","issuerEmail","issuerDesc",
+             "audienceOther","badgeName","learners","expN","expUnit","expDate","purpose","badgeDesc","alignment","additional"];
+  function collect() {
+    var d = { v: {}, audience: checkedVals("audience"), series: checkedVals("series")[0] || "",
+              expiry: checkedVals("expiry")[0] || "", btype: checkedVals("btype")[0] || "",
+              criteria: listVals("criteriaList"), skills: listVals("skillsList") };
+    IDS.forEach(function (id) { d.v[id] = $("#" + id).value; });
+    return d;
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(collect())); } catch (e) {} }
+  function restore() {
+    var d = null;
+    try { d = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) {}
+    if (d && d.v) {
+      IDS.forEach(function (id) { if (d.v[id] != null) $("#" + id).value = d.v[id]; });
+      $$('input[name="audience"]').forEach(function (i) { i.checked = (d.audience || []).indexOf(i.value) > -1; });
+      $$('input[name="series"]').forEach(function (i) { i.checked = i.value === d.series; });
+      $$('input[name="expiry"]').forEach(function (i) { i.checked = i.value === d.expiry; });
+      $$('input[name="btype"]').forEach(function (i) { i.checked = i.value === (d.btype === true ? "Curtin Engage" : d.btype); });
+    }
+    setList("criteriaList", (d && d.criteria) || []);
+    setList("skillsList", (d && d.skills) || []);
+    syncConditional();
+  }
+
+  /* ---------- validation ---------- */
+  var FREE = /@(gmail|googlemail|hotmail|outlook|live|yahoo|icloud|me|aol|proton|protonmail)\./i;
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function fieldOf(el) { return el.closest(".field"); }
+  function setErr(el, msg) {
+    var f = fieldOf(el); if (!f) return;
+    f.classList.toggle("invalid", !!msg);
+    var e = f.querySelector(".err"); if (e) e.textContent = msg || "";
+    var ctl = f.querySelector("input,select,textarea");
+    if (ctl && ctl.type !== "checkbox" && ctl.type !== "radio") ctl.setAttribute("aria-invalid", msg ? "true" : "false");
+  }
+  function validate() {
+    var bad = [];
+    function chk(el, msg) { setErr(el, msg || ""); if (msg) bad.push(fieldOf(el)); }
+    function text(id, msg) { chk($("#" + id), val(id) ? "" : msg); }
+
+    text("proposerName", "Enter your name.");
+    var pe = val("proposerEmail");
+    chk($("#proposerEmail"), !pe ? "Enter your email address." : !EMAIL.test(pe) ? "Enter a valid email address, like name@curtin.edu.au." : "");
+    text("faculty", "Enter your faculty or school.");
+    text("costCentre", "Enter your cost centre number.");
+
+    text("issuerName", "Enter the name of the issuing area.");
+    var w = val("issuerWebsite");
+    chk($("#issuerWebsite"), !w ? "Enter the issuer’s website." : !/^https?:\/\/\S+\.\S+/i.test(w) ? "Enter a full web address starting with https://" : "");
+    var ie = val("issuerEmail");
+    chk($("#issuerEmail"), !ie ? "Enter the issuer’s email address." : !EMAIL.test(ie) ? "Enter a valid email address." :
+        FREE.test(ie) ? "Use a generic mailbox for your area, not a private email address." : "");
+    text("issuerDesc", "Describe the issuer.");
+
+    var aud = checkedVals("audience");
+    chk($("#fs-audience input"), !aud.length ? "Select who the badge is for." :
+        (aud.indexOf("Other") > -1 && !val("audienceOther")) ? "Tell us who “Other” is." : "");
+    text("badgeName", "Enter the badge name.");
+    var n = parseInt($("#learners").value, 10);
+    chk($("#learners"), !(n > 0) ? "Enter the estimated number of learners (1 or more)." : "");
+    chk($('input[name="series"]'), checkedVals("series").length ? "" : "Choose one badge or a series.");
+
+    var ex = checkedVals("expiry")[0], exMsg = "";
+    if (!ex) exMsg = "Choose how long the badge is valid.";
+    else if (ex === "period" && !(parseInt($("#expN").value, 10) > 0)) exMsg = "Enter how many years or months the badge is valid for.";
+    else if (ex === "date" && !$("#expDate").value) exMsg = "Choose an expiry date.";
+    chk($('input[name="expiry"]'), exMsg);
+
+    chk($('input[name="btype"]'), checkedVals("btype").length ? "" : "Select the badge type.");
+    if (isCredit()) text("alignment", "Enter the framework and level this badge aligns to. This is required for credit bearing badges.");
+    else setErr($("#alignment"), "");
+    text("purpose", "Explain why you need this badge.");
+    text("badgeDesc", "Write the badge description.");
+
+    var crit = listVals("criteriaList").filter(Boolean);
+    chk($("#criteriaList input"), crit.length ? "" : "Add at least one earning criterion.");
+    var sk = listVals("skillsList").filter(Boolean);
+    chk($("#skillsList input"), sk.length >= 3 ? "" : "Add at least 3 skills (up to 5). You have " + sk.length + ".");
+
+    return bad;
+  }
+
+  /* ---------- progress ---------- */
+  function progress() {
+    var done = 0, total = 0;
+    function t(ok) { total++; if (ok) done++; }
+    ["proposerName","proposerEmail","faculty","costCentre","issuerName","issuerWebsite","issuerEmail","issuerDesc","badgeName","purpose","badgeDesc"].forEach(function (id) { t(!!val(id)); });
+    t(checkedVals("audience").length > 0);
+    t(parseInt($("#learners").value, 10) > 0);
+    t(checkedVals("series").length > 0);
+    t(checkedVals("expiry").length > 0);
+    t(checkedVals("btype").length > 0);
+    if (isCredit()) t(!!val("alignment"));
+    t(listVals("criteriaList").some(Boolean));
+    t(listVals("skillsList").filter(Boolean).length >= 3);
+    $("#progText").textContent = done + " of " + total + " required";
+    $("#progBar").style.width = (total ? Math.round(done / total * 100) : 0) + "%";
+  }
+
+  /* ---------- output text ---------- */
+  function fmtDate(s) {
+    var p = s.split("-"); if (p.length !== 3) return s;
+    var m = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    return parseInt(p[2], 10) + " " + m[parseInt(p[1], 10) - 1] + " " + p[0];
+  }
+  function buildText() {
+    var d = collect(), L = [];
+    function sec(t) { L.push(""); L.push(t.toUpperCase()); }
+    function row(k, v) { L.push(k + ": " + (v || "(not provided)")); }
+    var aud = d.audience.map(function (a) { return a === "Other" && val("audienceOther") ? "Other (" + val("audienceOther") + ")" : a; }).join(", ");
+    var ex = d.expiry === "period" ? val("expN") + " " + $("#expUnit").value.toLowerCase() :
+             d.expiry === "date" ? "Expires " + fmtDate($("#expDate").value) : "No expiration";
+    L.push("CURTIN BADGE PROPOSAL");
+    sec("Proposer details");
+    row("Name", val("proposerName")); row("Email address", val("proposerEmail"));
+    row("Faculty / School", val("faculty")); row("Cost centre number", val("costCentre"));
+    sec("Issuer details");
+    row("Issuer name", val("issuerName")); row("Issuer website", val("issuerWebsite"));
+    row("Issuer email", val("issuerEmail")); row("Issuer description", val("issuerDesc"));
+    row("Issuer logo", logoName ? logoName + " (attached to this email)" : "None chosen (defaults to the Curtin logo)");
+    sec("Badge information");
+    row("Who is the badge for?", aud); row("Badge name", val("badgeName"));
+    row("Estimated learners", val("learners")); row("One badge or a series?", d.series);
+    row("Badge expiration", ex); row("Badge type", d.btype && d.btype !== "Curtin Engage" ? d.btype + " (credit bearing, needs further approval through the PLG process)" : d.btype);
+    row("Purpose of the badge", val("purpose")); row("Badge description", val("badgeDesc"));
+    L.push("Earning criteria (Learners must complete the following criteria to earn the badge):");
+    d.criteria.filter(Boolean).forEach(function (c, i) { L.push("  " + (i + 1) + ". " + c); });
+    L.push("Skills (Learners demonstrated these job skills):");
+    d.skills.filter(Boolean).forEach(function (c, i) { L.push("  " + (i + 1) + ". " + c); });
+    row("Alignment details", val("alignment") || "None");
+    sec("Additional information");
+    L.push(val("additional") || "None");
+    return L.join("\n").replace(/^\n/, "");
+  }
+
+  /* ---------- events ---------- */
+  function onChange() { syncConditional(); progress(); save(); }
+  $("#f").addEventListener("input", onChange);
+  $("#f").addEventListener("change", onChange);
+
+  var wantCopy = false;
+  $("#copyFormBtn").addEventListener("click", function () { wantCopy = true; $("#f").requestSubmit(); wantCopy = false; });
+  $("#f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var bad = validate();
+    if (bad.length) {
+      $("#status").textContent = bad.length === 1 ? "1 field needs attention." : bad.length + " fields need attention.";
+      bad[0].scrollIntoView({ behavior: "smooth", block: "center" });
+      var c = bad[0].querySelector("input,select,textarea"); if (c) c.focus({ preventScroll: true });
+      return;
+    }
+    $("#status").textContent = "";
+    $("#revText").textContent = buildText();
+    $("#logoNote").hidden = !logoName;
+    $("#toast").textContent = "";
+    $("#review").classList.add("show");
+    $("#review").scrollIntoView({ behavior: "smooth", block: "start" });
+    if (wantCopy) { wantCopy = false; copyText(); } else openMail();
+  });
+
+  $("#editBtn").addEventListener("click", function () {
+    $("#review").classList.remove("show");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  function openMail() {
+    var subj = "Curtin Badge Proposal: " + val("badgeName");
+    window.location.href = "mailto:" + TO + "?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(buildText());
+    $("#toast").textContent = "If the text in your email looks cut off, use Copy form and paste it into a new email.";
+  }
+  $("#mailBtn").addEventListener("click", openMail);
+  function copyText() {
+    var txt = buildText(), done = function () { $("#toast").textContent = "Copied. Go back to the Proposal form and paste it in."; };
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { $("#toast").textContent = "Couldn’t copy automatically. Select the text above and copy it."; }
+      ta.remove();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, fallback); else fallback();
+  }
+  $("#copyBtn").addEventListener("click", copyText);
+  $("#printBtn").addEventListener("click", function () { window.print(); });
+  $("#saveBtn").addEventListener("click", function () {
+    var ok = true;
+    try { localStorage.setItem(KEY, JSON.stringify(collect())); } catch (e) { ok = false; }
+    var t = new Date().toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit" });
+    var m = $("#saveMsg");
+    m.style.color = ok ? "" : "var(--red)";
+    m.textContent = ok ? "Draft saved at " + t + ". It will be here next time you open this page in this browser." : "Couldn’t save in this browser. Use Review and send, then Copy text, to keep your answers.";
+    $("#status").textContent = "";
+  });
+  $("#clearBtn").addEventListener("click", function () {
+    if (!window.confirm("Clear everything you’ve entered?")) return;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    $("#f").reset(); $("#learners").value = "150";
+    $("#logoPrev").hidden = true; logoName = "";
+    $$(".field.invalid").forEach(function (f) { f.classList.remove("invalid"); });
+    $("#review").classList.remove("show"); $("#status").textContent = "";
+    setList("criteriaList", []); setList("skillsList", []);
+    syncConditional(); progress();
+  });
+
+  /* ---------- theme ---------- */
+  (function () {
+    var btn = $("#themeToggleBtn"), root = document.documentElement;
+    function isLight() { return root.getAttribute("data-theme") === "light"; }
+    function icon() { btn.textContent = isLight() ? "\u2600\uFE0F" : "\uD83C\uDF19"; }
+    icon();
+    btn.addEventListener("click", function () {
+      if (isLight()) root.removeAttribute("data-theme"); else root.setAttribute("data-theme", "light");
+      try { localStorage.setItem("sfl-theme", isLight() ? "light" : "dark"); } catch (e) {}
+      icon();
+    });
+  })();
+
+  restore(); progress();
+})();
+</script>
+</body>
+</html>
